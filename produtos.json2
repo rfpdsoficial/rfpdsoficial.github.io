@@ -1,0 +1,38 @@
+{
+    "produto": {
+        "id": 1,
+        "nome": "Kit 3 Perfume Masculino 100ml cada Queridinhos",
+        "descricao": "Perfumes masculinos importados com fragrâncias marcantes e duradouras",
+        "preco": 34.30,
+        "preco_parcelado": 6.40,
+        "parcelas": 6,
+        "frete_gratis_acima": 19.00,
+        "frete_valor": 27.87,
+        "frete_cupom": 7.87,
+        "avaliacao": 4.5,
+        "num_avaliacoes": 914,
+        "produtos_vendidos": 1600,
+        "tempo_resposta": "Menos de 4h",
+        "imagem": "https://example.com/perfume.jpg",
+        "loja": {
+            "nome": "Carmina Essencial",
+            "localizacao": "São Paulo, São Paulo",
+            "avaliacao_loja": 4.5,
+            "num_avaliacoes_loja": 990
+        }
+    },
+    "outros_produtos": [
+        {
+            "id": 2,
+            "nome": "Perfume Feminino Florais 50ml",
+            "preco": 45.90,
+            "imagem": "https://example.com/perfume-feminino.jpg"
+        },
+        {
+            "id": 3,
+            "nome": "Kit Higiene Masculino",
+            "preco": 29.90,
+            "imagem": "https://example.com/kit-higiene.jpg"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "nome": "Smartphone Premium",
+    "descricao": "Última geração com câmera tripla e 256GB de armazenamento",
+    "preco": 3499.90,
+    "imagem": "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd",
+    "categoria": "eletronicos",
+    "destaque": true
+  },
+  {
+    "id": 2,
+    "nome": "Notebook Ultrafino",
+    "descricao": "Processador i7, 16GB RAM, SSD 512GB, tela 4K",
+    "preco": 5899.00,
+    "imagem": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853",
+    "categoria": "eletronicos",
+    "destaque": false
+  },
+  {
+    "id": 3,
+    "nome": "Fone Bluetooth",
+    "descricao": "Cancelamento de ruído, 30h de bateria, à prova d'água",
+    "preco": 799.90,
+    "imagem": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e",
+    "categoria": "acessorios",
+    "destaque": true
+  }
+]
