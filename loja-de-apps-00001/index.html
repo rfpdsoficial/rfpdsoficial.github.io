@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AppStore Premium</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4e54c8;
+            --secondary: #8f94fb;
+            --accent: #ff6b6b;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --promo: #e74c3c;
+            --featured: #9b59b6;
+            --free: #27ae60;
+            --paid: #3498db;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e7f4 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+        
+        header {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo i {
+            color: var(--accent);
+        }
+        
+        .search-container {
+            flex: 1;
+            max-width: 600px;
+            position: relative;
+        }
+        
+        .search-container input {
+            width: 100%;
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: none;
+            font-size: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-container button {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .search-container button:hover {
+            background: #ff5252;
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .user-actions a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        
+        .user-actions a:hover {
+            opacity: 0.8;
+        }
+        
+        .categories {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .categories ul {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+            max-width: 1400px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+        
+        .categories li {
+            padding: 0.5rem 0;
+        }
+        
+        .categories a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .categories a:hover, 
+        .categories a.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(78, 84, 200, 0.8), rgba(143, 148, 251, 0.8)), 
+                        url('https://images.unsplash.com/photo-1516387938699-a93567ec168e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .section-title h2 {
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+        
+        .section-title a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .app-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .app-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .app-image {
+            height: 180px;
+            width: 100%;
+            background: linear-gradient(135deg, #8f94fb, #4e54c8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        
+        .app-image img {
+            max-height: 140px;
+            max-width: 100%;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+        
+        .app-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: white;
+            z-index: 2;
+        }
+        
+        .badge-featured {
+            background: var(--featured);
+        }
+        
+        .badge-promo {
+            background: var(--promo);
+        }
+        
+        .badge-free {
+            background: var(--free);
+        }
+        
+        .badge-paid {
+            background: var(--paid);
+        }
+        
+        .app-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .app-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .app-category {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .app-description {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+        
+        .app-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+        
+        .app-rating {
+            color: var(--warning);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+        
+        .app-price {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--dark);
+        }
+        
+        .original-price {
+            text-decoration: line-through;
+            color: #95a5a6;
+            font-size: 0.9rem;
+            margin-right: 5px;
+        }
+        
+        .promo-price {
+            color: var(--promo);
+        }
+        
+        .download-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            text-decoration: none;
+            margin-top: 1rem;
+        }
+        
+        .download-btn:hover {
+            background: var(--secondary);
+        }
+        
+        .download-btn.paid {
+            background: var(--paid);
+        }
+        
+        .download-btn.paid:hover {
+            background: #2980b9;
+        }
+        
+        .download-btn.promo {
+            background: var(--promo);
+        }
+        
+        .download-btn.promo:hover {
+            background: #c0392b;
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem;
+            margin-top: 3rem;
+        }
+        
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--primary);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-column a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #95a5a6;
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+            }
+            
+            .search-container {
+                width: 100%;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .categories ul {
+                gap: 0.5rem;
+            }
+            
+            .categories a {
+                padding: 0.5rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+    <!-- Inclua o arquivo apps.js antes do script principal -->
+    <script src="apps.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-mobile-alt"></i>
+                <span>AppStore Premium</span>
+            </div>
+            
+            <div class="search-container">
+                <input type="text" placeholder="Pesquisar aplicativos...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+            
+            <div class="user-actions">
+                <a href="#"><i class="fas fa-user"></i> Entrar</a>
+                <a href="#"><i class="fas fa-shopping-cart"></i> Carrinho</a>
+                <a href="https://wa.me/5538999550133?text=Voc%C3%AAs%20pode%20adicionar%20o%20app!!%0ANome%20do%20app%3F%20%0ALink%20Opcional%20do%20app%3F%20%0ASeu%20nome%20Opcional%3F%20%0AObrigado%20tava%20precisando%20desse%20app%F0%9F%98%8A!!!"><i class="fas fa-cart"></i> Não acho app?</a>
+            </div>
+        </div>
+    </header>
+    
+    <nav class="categories">
+        <ul>
+            <li><a href="#" class="filter-link active" data-filter="all">Todos</a></li>
+            <li><a href="#" class="filter-link" data-filter="featured">Destaques</a></li>
+            <li><a href="#" class="filter-link" data-filter="free">Gratuitos</a></li>
+            <li><a href="#" class="filter-link" data-filter="paid">Pagas</a></li>
+            <li><a href="#" class="filter-link" data-filter="promo">Promoções</a></li>
+            <li><a href="#" class="filter-link" data-filter="Jogos">Jogos</a></li>
+            <li><a href="#" class="filter-link" data-filter="Produtividade">Produtividade</a></li>
+            <li><a href="#" class="filter-link" data-filter="Social">Social</a></li>
+        </ul>
+    </nav>
+    
+    <section class="hero">
+        <h1>Descubra os melhores aplicativos para o seu dispositivo</h1>
+        <p>Milhares de aplicativos cuidadosamente selecionados para melhorar sua produtividade, diversão e comunicação</p>
+    </section>
+    
+    <div class="container">
+        <section class="featured-apps">
+            <div class="section-title">
+                <h2><i class="fas fa-star"></i> Aplicativos em Destaque</h2>
+                <a href="#">Ver todos <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <div class="apps-grid" id="featured-apps">
+                <!-- Os apps em destaque serão carregados aqui -->
+            </div>
+        </section>
+        
+        <section class="promo-apps">
+            <div class="section-title">
+                <h2><i class="fas fa-tag"></i> Promoções Imperdíveis</h2>
+                <a href="#">Ver todas <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <div class="apps-grid" id="promo-apps">
+                <!-- Os apps em promoção serão carregados aqui -->
+            </div>
+        </section>
+       
+        <section class="all-apps">
+            <div class="section-title">
+                <h2><i class="fas fa-th-large"></i> Todos os Aplicativos</h2>
+                <a href="#">Ver mais <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <div class="apps-grid" id="all-apps">
+                <!-- Todos os apps serão carregados aqui -->
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Sobre Nós</h3>
+                <p>AppStore Premium oferece os melhores aplicativos para dispositivos móveis desde 2023. Nossa missão é conectar você aos apps que realmente importam.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Links Rápidos</h3>
+                <ul>
+                    <li><a href="#">Início</a></li>
+                    <li><a href="#">Aplicativos</a></li>
+                    <li><a href="#">Categorias</a></li>
+                    <li><a href="#">Promoções</a></li>
+                    <li><a href="#">Destaques</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Políticas</h3>
+                <ul>
+                    <li><a href="#">Termos de Uso</a></li>
+                    <li><a href="#">Política de Privacidade</a></li>
+                    <li><a href="#">Política de Reembolso</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Suporte</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Contato</h3>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> Minas Gerais, MG, Brasil</li>
+                    <li><i class="fas fa-phone"></i> +55 (38) 99955-0133</li>
+                    <li><i class="fas fa-envelope"></i> rfstudio@gmail.com</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2025 AppStore Premium. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Função para renderizar os aplicativos
+        function renderApps(filter = 'all') {
+            const featuredContainer = document.getElementById('featured-apps');
+            const promoContainer = document.getElementById('promo-apps');
+            const allContainer = document.getElementById('all-apps');
+            
+            // Limpar containers
+            featuredContainer.innerHTML = '';
+            promoContainer.innerHTML = '';
+            allContainer.innerHTML = '';
+            
+            // Filtrar apps de acordo com o filtro selecionado
+            let filteredApps = apps.apps;
+            
+            if (filter === 'featured') {
+                filteredApps = apps.apps.filter(app => app.is_featured);
+            } else if (filter === 'free') {
+                filteredApps = apps.apps.filter(app => app.price === 0);
+            } else if (filter === 'paid') {
+                filteredApps = apps.apps.filter(app => app.price > 0);
+            } else if (filter === 'promo') {
+                filteredApps = apps.apps.filter(app => app.is_promo);
+            } else if (filter !== 'all') {
+                // Filtro por categoria específica
+                filteredApps = apps.apps.filter(app => app.category === filter);
+            }
+            
+            // Renderizar apps filtrados
+            filteredApps.forEach(app => {
+                const appCard = createAppCard(app);
+                allContainer.appendChild(appCard.cloneNode(true));
+            });
+            
+            // Sempre mostrar apps em destaque e promoção (independente do filtro)
+            apps.apps.forEach(app => {
+                if (app.is_featured) {
+                    const featuredCard = createAppCard(app);
+                    featuredContainer.appendChild(featuredCard.cloneNode(true));
+                }
+                
+                if (app.is_promo) {
+                    const promoCard = createAppCard(app);
+                    promoContainer.appendChild(promoCard.cloneNode(true));
+                }
+            });
+            
+            // Atualizar título da seção principal
+            updateSectionTitle(filter);
+        }
+        
+        // Função para atualizar o título da seção
+        function updateSectionTitle(filter) {
+            const sectionTitle = document.querySelector('.all-apps .section-title h2');
+            const icons = {
+                'all': 'fa-th-large',
+                'featured': 'fa-star',
+                'free': 'fa-tag',
+                'paid': 'fa-dollar-sign',
+                'promo': 'fa-percentage',
+                'default': 'fa-filter'
+            };
+            
+            const titles = {
+                'all': 'Todos os Aplicativos',
+                'featured': 'Aplicativos em Destaque',
+                'free': 'Aplicativos Gratuitos',
+                'paid': 'Aplicativos Pagos',
+                'promo': 'Aplicativos em Promoção'
+            };
+            
+            const iconClass = icons[filter] || icons['default'];
+            const titleText = titles[filter] || filter;
+            
+            sectionTitle.innerHTML = `<i class="fas ${iconClass}"></i> ${titleText}`;
+        }
+        
+        // Função para criar o card de um aplicativo
+        function createAppCard(app) {
+            const card = document.createElement('div');
+            card.className = 'app-card';
+            
+            // Determinar o tipo do app para estilização
+            const isFree = app.price === 0;
+            const hasPromo = app.is_promo && app.promo_price < app.price;
+            
+            // Badges (destaque, promoção, gratuito/pago)
+            let badgesHTML = '';
+            if (app.is_featured) {
+                badgesHTML += `<span class="app-badge badge-featured"><i class="fas fa-star"></i> Destaque</span>`;
+            }
+            if (hasPromo) {
+                badgesHTML += `<span class="app-badge badge-promo"><i class="fas fa-tag"></i> Promoção</span>`;
+            }
+            if (isFree) {
+                badgesHTML += `<span class="app-badge badge-free">Grátis</span>`;
+            } else {
+                badgesHTML += `<span class="app-badge badge-paid">Pago</span>`;
+            }
+            
+            // Preço formatado
+            let priceHTML = '';
+            if (isFree) {
+                priceHTML = `<div class="app-price">Grátis</div>`;
+            } else if (hasPromo) {
+                priceHTML = `
+                    <div class="app-price">
+                        <span class="original-price">R$${app.price.toFixed(2)}</span>
+                        <span class="promo-price">R$${app.promo_price.toFixed(2)}</span>
+                    </div>
+                `;
+            } else {
+                priceHTML = `<div class="app-price">R$${app.price.toFixed(2)}</div>`;
+            }
+            
+            // Botão de download
+            let buttonClass = '';
+            if (hasPromo) buttonClass = 'promo';
+            else if (!isFree) buttonClass = 'paid';
+            
+            card.innerHTML = `
+                <div class="app-image">
+                    ${badgesHTML}
+                    <img src="${app.image}" alt="${app.name}" loading="lazy">
+                </div>
+                <div class="app-content">
+                    <h3 class="app-title">${app.name}</h3>
+                    <div class="app-category">${app.category}</div>
+                    <p class="app-description">${app.description}</p>
+                    <div class="app-meta">
+                        <div class="app-rating">
+                            <i class="fas fa-star"></i> ${app.rating}
+                        </div>
+                        ${priceHTML}
+                    </div>
+                    <a href="${app.download_link}" class="download-btn ${buttonClass}" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-download"></i> ${isFree ? 'Baixar' : hasPromo ? 'Comprar com Desconto' : 'Comprar'}
+                    </a>
+                </div>
+            `;
+            
+            return card;
+        }
+        
+        // Adicionar eventos aos filtros
+        function setupFilters() {
+            const filterLinks = document.querySelectorAll('.filter-link');
+            
+            filterLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remover classe active de todos os links
+                    filterLinks.forEach(l => l.classList.remove('active'));
+                    
+                    // Adicionar classe active ao link clicado
+                    this.classList.add('active');
+                    
+                    // Filtrar apps
+                    const filter = this.getAttribute('data-filter');
+                    renderApps(filter);
+                });
+            });
+        }
+        
+        // Inicializar a loja quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            renderApps();
+            setupFilters();
+        });
+    </script>
+</body>
+</html>
