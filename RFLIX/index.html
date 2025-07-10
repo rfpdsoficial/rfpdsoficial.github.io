@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFLIX Premium - Conteúdo VIP</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <style>
+        :root {
+            --primary-color: #e50914;
+            --primary-dark: #b2070f;
+            --vip-color: #ffd700;
+            --text-dark: #ffffff;
+            --text-medium: #e5e5e5;
+            --text-light: #f8fafc;
+            --background: #141414;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+            --card-shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--text-dark);
+            line-height: 1.5;
+        }
+
+        /* Header/Navbar */
+        .main-header {
+            background-color: var(--background);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 30px;
+            height: 30px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-medium);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: var(--transition);
+            padding: 0.5rem 0;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--text-dark);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: white;
+        }
+
+        /* VIP Access Button */
+        .vip-access-btn {
+            background-color: var(--vip-color);
+            color: #000;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 1rem;
+            transition: var(--transition);
+        }
+
+        .vip-access-btn:hover {
+            background-color: #ffc600;
+        }
+
+        /* Container Principal */
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Seções */
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-left: 1rem;
+            color: var(--text-dark);
+        }
+
+        /* Destaques Section */
+        .highlights-section {
+            margin-bottom: 3rem;
+        }
+
+        /* Grid System */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            padding: 0 1rem;
+        }
+
+        /* Cards */
+        .card {
+            position: relative;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            aspect-ratio: 2/3;
+            background-color: #333;
+        }
+
+        .card:hover {
+            transform: translateY(-0.5rem);
+            box-shadow: var(--card-shadow-hover);
+            z-index: 10;
+        }
+
+        .card-link {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .card-image-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .card:hover .card-image {
+            transform: scale(1.05);
+            opacity: 0.8;
+        }
+
+        .card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+            color: var(--text-light);
+            opacity: 0;
+            transition: var(--transition);
+            transform: translateY(10px);
+        }
+
+        .card:hover .card-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .vip-badge {
+            background-color: var(--vip-color);
+            color: #000;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .card-description {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* VIP Lock */
+        .vip-lock {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: var(--vip-color);
+            text-align: center;
+            padding: 1rem;
+            cursor: pointer;
+        }
+
+        .vip-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .vip-lock-text {
+            font-weight: 600;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: var(--background);
+            padding: 2rem;
+            border-radius: 0.5rem;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--vip-color);
+            text-align: center;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid #333;
+            border-radius: 0.25rem;
+            background-color: #222;
+            color: white;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .modal-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            cursor: pointer;
+            flex: 1;
+            transition: var(--transition);
+        }
+
+        .modal-btn-primary {
+            background-color: var(--vip-color);
+            color: #000;
+        }
+
+        .modal-btn-primary:hover {
+            background-color: #ffc600;
+        }
+
+        .modal-btn-secondary {
+            background-color: #333;
+            color: white;
+        }
+
+        .modal-btn-secondary:hover {
+            background-color: #444;
+        }
+
+        .modal-error {
+            color: var(--primary-color);
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            text-align: center;
+            display: none;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem 1rem;
+            color: var(--text-medium);
+            font-size: 0.875rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Loading */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            font-size: 1.5rem;
+            color: var(--text-medium);
+        }
+
+        /* Responsive Adjustments */
+        @media (min-width: 640px) {
+            .grid-container {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            }
+        }
+
+        @media (min-width: 768px) {
+            .grid-container {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .grid-container {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background-color: var(--background);
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem 0;
+                gap: 1.5rem;
+                transition: var(--transition);
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-link {
+                font-size: 1.1rem;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+
+            .vip-access-btn {
+                margin-left: 0;
+                margin-top: 1rem;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header/Navbar -->
+    <header class="main-header">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="var(--primary-color)" stroke="none">
+                    <path d="M18.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 9v6h4l5 5V4L9 9H5z"/>
+                </svg>
+                <span>RFLIX</span>
+            </a>
+            
+            <div style="display: flex; align-items: center;">
+                <button class="vip-access-btn" id="vipAccessBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 5px;">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    Acesso VIP
+                </button>
+                
+                <button class="mobile-menu-btn" aria-label="Abrir menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#" class="nav-link active" data-category="all">Todos</a></li>
+                <li class="nav-item"><a href="#filmes-series" class="nav-link" data-category="filmes-series">Filmes e Séries</a></li>
+                <li class="nav-item"><a href="#animes" class="nav-link" data-category="animes">Animes</a></li>
+                <li class="nav-item"><a href="#sports" class="nav-link" data-category="sports">Esportes</a></li>
+                <li class="nav-item"><a href="#tv" class="nav-link" data-category="tv">TV</a></li>
+                <li class="nav-item"><a href="#adultos" class="nav-link" data-category="adultos">+18</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Modal de Acesso VIP -->
+    <div class="modal" id="vipModal">
+        <div class="modal-content">
+            <h2 class="modal-title">Acesso VIP</h2>
+            <input type="password" class="modal-input" id="vipPassword" placeholder="Digite a senha VIP">
+            <p class="modal-error" id="vipError">Senha incorreta. Tente novamente.</p>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-secondary" id="cancelVipBtn">Cancelar</button>
+                <button class="modal-btn modal-btn-primary" id="confirmVipBtn">Acessar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="main-content">
+        <div class="loading">Carregando conteúdo...</div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 RFLIX Premium. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        // Estado da aplicação
+        const appState = {
+            isVip: false,
+            jsonData: null
+        };
+
+        // Elementos do DOM
+        const elements = {
+            vipAccessBtn: document.getElementById('vipAccessBtn'),
+            vipModal: document.getElementById('vipModal'),
+            vipPassword: document.getElementById('vipPassword'),
+            vipError: document.getElementById('vipError'),
+            cancelVipBtn: document.getElementById('cancelVipBtn'),
+            confirmVipBtn: document.getElementById('confirmVipBtn'),
+            mainContent: document.getElementById('main-content'),
+            mobileMenuBtn: document.querySelector('.mobile-menu-btn'),
+            navMenu: document.querySelector('.nav-menu'),
+            navLinks: document.querySelectorAll('.nav-link')
+        };
+
+        // Menu mobile
+        elements.mobileMenuBtn.addEventListener('click', () => {
+            elements.navMenu.classList.toggle('active');
+        });
+
+        // Fechar menu ao clicar em um link
+        elements.navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                elements.navMenu.classList.remove('active');
+            });
+        });
+
+        // Carregar conteúdo do JSON
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch('assets/rflix.json');
+                if (!response.ok) {
+                    throw new Error('Falha ao carregar o conteúdo');
+                }
+                const data = await response.json();
+                appState.jsonData = data;
+                
+                // Verificar se há acesso VIP armazenado
+                const storedVip = localStorage.getItem('rflix_vip_access');
+                if (storedVip === 'true') {
+                    appState.isVip = true;
+                    updateVipButton();
+                }
+                
+                // Renderizar o conteúdo
+                renderContent(data);
+                
+                // Adicionar eventos de filtro
+                setupFilterEvents(data);
+                
+            } catch (error) {
+                console.error('Erro ao carregar o conteúdo:', error);
+                elements.mainContent.innerHTML = `
+                    <div class="error-message" style="color: var(--primary-color); text-align: center; padding: 2rem;">
+                        Ocorreu um erro ao carregar o conteúdo. Por favor, tente novamente mais tarde.
+                    </div>
+                `;
+            }
+        });
+
+        // Renderizar o conteúdo
+        function renderContent(data) {
+            let html = '';
+            
+            // Seção de Destaques
+            const highlights = getHighlights(data);
+            if (highlights.length > 0) {
+                html += `
+                    <section class="highlights-section">
+                        <h2 class="section-title">Destaques</h2>
+                        <div class="grid-container">
+                            ${highlights.map(item => createCard(item, findCategoryForItem(data, item.id))).join('')}
+                        </div>
+                    </section>
+                `;
+            }
+            
+            // Seções por Categoria
+            data.categorias.forEach(categoria => {
+                html += `
+                    <section class="category-section" id="${categoria.id}">
+                        <h2 class="section-title">${categoria.nome}</h2>
+                        <div class="grid-container" data-category="${categoria.id}">
+                            ${categoria.itens.map(item => createCard(item, categoria.id)).join('')}
+                        </div>
+                    </section>
+                `;
+            });
+            
+            elements.mainContent.innerHTML = html;
+            
+            // Adicionar eventos aos cards VIP
+            setupVipCards();
+        }
+
+        // Obter itens em destaque
+        function getHighlights(data) {
+            if (!data.config || !data.config.destaques) return [];
+            
+            const highlights = [];
+            data.categorias.forEach(categoria => {
+                categoria.itens.forEach(item => {
+                    if (data.config.destaques.includes(item.id)) {
+                        highlights.push(item);
+                    }
+                });
+            });
+            
+            return highlights;
+        }
+
+        // Encontrar categoria de um item
+        function findCategoryForItem(data, itemId) {
+            for (const categoria of data.categorias) {
+                for (const item of categoria.itens) {
+                    if (item.id === itemId) {
+                        return categoria.id;
+                    }
+                }
+            }
+            return '';
+        }
+
+        // Criar card HTML
+        function createCard(item, categoryId) {
+            const isVip = item.vip || false;
+            const isHighlight = appState.jsonData.config.destaques.includes(item.id);
+            
+            return `
+                <div class="card" data-id="${item.id}" data-category="${categoryId}" data-vip="${isVip}">
+                    <a href="${isVip && !appState.isVip ? '#' : item.link}" class="card-link" ${isVip && !appState.isVip ? '' : 'target="_blank"'}>
+                        <div class="card-image-container">
+                            <img src="${item.imagem}" alt="${item.titulo}" class="card-image">
+                            ${isHighlight ? '<div class="card-badge">Destaque</div>' : ''}
+                            ${isVip ? '<div class="card-badge vip-badge">VIP</div>' : ''}
+                            <div class="card-overlay">
+                                <h3 class="card-title">${item.titulo}</h3>
+                                <p class="card-description">${item.descricao}</p>
+                            </div>
+                            ${isVip && !appState.isVip ? `
+                                <div class="vip-lock" data-id="${item.id}">
+                                    <div class="vip-icon">🔒</div>
+                                    <p class="vip-lock-text">Conteúdo VIP</p>
+                                    <small>Clique para acessar</small>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </a>
+                </div>
+            `;
+        }
+
+        // Configurar eventos de filtro
+        function setupFilterEvents(data) {
+            elements.navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    // Atualizar link ativo
+                    elements.navLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    
+                    const category = link.dataset.category;
+                    
+                    // Filtrar conteúdo
+                    if (category === 'all') {
+                        // Mostrar todas as categorias
+                        document.querySelectorAll('.category-section, .highlights-section').forEach(section => {
+                            section.style.display = 'block';
+                        });
+                    } else {
+                        // Esconder todas as seções
+                        document.querySelectorAll('.category-section, .highlights-section').forEach(section => {
+                            section.style.display = 'none';
+                        });
+                        
+                        // Mostrar apenas a categoria selecionada
+                        const section = document.getElementById(category);
+                        if (section) section.style.display = 'block';
+                    }
+                    
+                    // Rolagem suave para a seção
+                    if (category !== 'all') {
+                        document.getElementById(category).scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    } else {
+                        window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Configurar eventos dos cards VIP
+        function setupVipCards() {
+            document.querySelectorAll('.vip-lock').forEach(lock => {
+                lock.addEventListener('click', () => {
+                    if (!appState.isVip) {
+                        openVipModal();
+                    }
+                });
+            });
+        }
+
+        // Atualizar botão VIP
+        function updateVipButton() {
+            if (appState.isVip) {
+                elements.vipAccessBtn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 5px;">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    VIP Ativo
+                `;
+                elements.vipAccessBtn.style.backgroundColor = '#4CAF50';
+                
+                // Atualizar cards VIP
+                document.querySelectorAll('[data-vip="true"] .vip-lock').forEach(lock => {
+                    lock.style.display = 'none';
+                });
+                
+                document.querySelectorAll('[data-vip="true"] .card-link').forEach(link => {
+                    const card = link.closest('.card');
+                    const itemId = card.dataset.id;
+                    const item = findItemById(appState.jsonData, itemId);
+                    if (item) {
+                        link.href = item.link;
+                        link.setAttribute('target', '_blank');
+                    }
+                });
+            } else {
+                elements.vipAccessBtn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 5px;">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    Acesso VIP
+                `;
+                elements.vipAccessBtn.style.backgroundColor = 'var(--vip-color)';
+            }
+        }
+
+        // Encontrar item por ID
+        function findItemById(data, itemId) {
+            for (const categoria of data.categorias) {
+                for (const item of categoria.itens) {
+                    if (item.id === itemId) {
+                        return item;
+                    }
+                }
+            }
+            return null;
+        }
+
+        // Abrir modal VIP
+        function openVipModal() {
+            elements.vipModal.style.display = 'flex';
+            elements.vipPassword.focus();
+            elements.vipError.style.display = 'none';
+        }
+
+        // Fechar modal VIP
+        function closeVipModal() {
+            elements.vipModal.style.display = 'none';
+            elements.vipPassword.value = '';
+        }
+
+        // Verificar senha VIP
+        function checkVipPassword() {
+            const password = elements.vipPassword.value;
+            const correctPassword = appState.jsonData.config.senha_vip;
+            
+            if (password === correctPassword) {
+                appState.isVip = true;
+                localStorage.setItem('rflix_vip_access', 'true');
+                updateVipButton();
+                closeVipModal();
+            } else {
+                elements.vipError.style.display = 'block';
+                elements.vipPassword.value = '';
+                elements.vipPassword.focus();
+            }
+        }
+
+        // Event Listeners
+        elements.vipAccessBtn.addEventListener('click', () => {
+            if (appState.isVip) {
+                // Opção para deslogar do VIP
+                if (confirm('Deseja sair do modo VIP?')) {
+                    appState.isVip = false;
+                    localStorage.removeItem('rflix_vip_access');
+                    updateVipButton();
+                    location.reload();
+                }
+            } else {
+                openVipModal();
+            }
+        });
+
+        elements.cancelVipBtn.addEventListener('click', closeVipModal);
+        elements.confirmVipBtn.addEventListener('click', checkVipPassword);
+        
+        elements.vipPassword.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                checkVipPassword();
+            }
+        });
+    </script>
+</body>
+</html>
