@@ -1,0 +1,172 @@
+{
+  "config": {
+    "senha_vip": "rflixvip2",
+    "destaques": ["fs5", "fs6", "sp1"]
+  },
+
+
+
+  "categorias": [
+    {
+      "id": "filmes-series",
+      "nome": "Filmes e Séries",
+      "itens": [
+
+        {
+          "id": "fs1",
+          "titulo": "Filmow",
+          "descricao": "Filmes e Séries",
+          "imagem": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSwBrWjy69vl84p_xLLMRFA1b9uodhmijSkpkxeV0FSAaF3ouCM8LGNYM&s=10",
+          "link": "https://filmow.com/",
+          "destaque": false,
+          "vip": false
+        },
+        {
+          "id": "fs2",
+          "titulo": "Plex",
+          "descricao": "Séries, filmes, etc...",
+          "imagem": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgv_WbvRKr96X9Fsi5-ZPLsCn_oJ2gqh9QyR4jYcOngQ&s",
+          "link": "https://watch.plex.tv/pt/live-tv?_gl=1*30itxk*_gcl_au*MTU3NjMxNTg3OC4xNzUyMTE1ODc1*_ga*NzM5MTE5MDQzLjE3NTIxMTU4Nzc.*_ga_G6FQWNSENB*czE3NTIxMTU4NzgkbzEkZzAkdDE3NTIxMTU4ODckajUxJGwwJGgw",
+          "destaque": false,
+          "vip": false
+        },
+        {
+          "id": "fs3",
+          "titulo": "JustWatch",
+          "descricao": "FS...",
+          "imagem": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpUyH8JroNcNDqrRgn0TVN4t6hgQTjKpneMwwpn9swMw&s",
+          "link": "https://www.justwatch.com/br/filmes",
+          "destaque": false,
+          "vip": false
+        },
+        {
+          "id": "fs4",
+          "titulo": "HyperFlix",
+          "descricao": "Série de fantasia baseada nos livros",
+          "imagem": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBS3ayaOvH_BcxwVEt6PplMus2RkcVSkytNNRWQd4-mg&s",
+          "link": "https://hypeflix.biz/",
+          "destaque": false,
+          "vip": false
+        },
+        {
+          "id": "fs5",
+          "titulo": "Xilften",
+          "descricao": "Série, f...",
+          "imagem": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-W-D6bhN8iPKPjKJri-y_U3AM6LAgL-sg9t1hMPCZZQ&s",
+          "link": "https://xilftenfilmes.com/",
+          "destaque": true,
+          "vip": false
+        },
+        {
+          "id": "fs6",
+          "titulo": "XILFTEN2",
+          "descricao": "Série, f...",
+          "imagem": "data:image/png;base64,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",
+          "link": "https://xilften.blog/",
+          "destaque": true,
+          "vip": false
+        },
+        {
+          "id": "fs7",
+          "titulo": "PobreFlix",
+          "descricao": "Série, f...",
+          "imagem": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHkGxE-7SODM5eWmLX5NeUQKEB5XiurilK1sAbXsI-0g&s",
+          "link": "https://pobreflixtv.lat/",
+          "destaque": false,
+          "vip": false
+        },
+        {
+          "id": "fs8",
+          "titulo": "BoraFlix",
+          "descricao": "Série, f...",
+          "imagem": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9vS7igUFO20DXaQMOtHlQk3NOdvDiuOScSIytKRb4Hw&s",
+          "link": "https://www.boraflix.com/",
+          "destaque": false,
+          "vip": false
+        }
+      ]
+    },
+
+
+
+    {
+      "id": "animes",
+      "nome": "Animes e desenhos",
+      "itens": [
+
+
+        {
+          "id": "an1",
+          "titulo": "AnimesFlix",
+          "descricao": "Anime de ação e fantasia sombria",
+          "imagem": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSVpLNMZBQaUjtmCXiLPAYT9T19QOzql0PartDmcJdYg&s",
+          "link": "https://animesflix.net/",
+          "destaque": false,
+          "vip": false
+        }
+      ]
+    },
+
+
+    {
+      "id": "Televisão",
+      "nome": "TVs",
+      "itens": [
+
+
+
+        {
+          "id": "tv1",
+          "titulo": "PlutoTv",
+          "descricao": "tvs ao vivo!",
+          "imagem": "data:image/png;base64,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",
+          "link": "https://pluto.tv/br/live-tv/63eb9c5351f5d000085e8d7e",
+          "destaque": false,
+          "vip": false
+        }
+      ]
+    },
+
+
+
+    {
+      "id": "sports",
+      "nome": "Esportes",
+      "itens": [
+
+
+        {
+          "id": "sp1",
+          "titulo": "365scores",
+          "descricao": "Todos os jgs e spr...",
+          "imagem": "data:image/png;base64,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",
+          "link": "https://www.365scores.com/pt-br",
+          "destaque": true,
+          "vip": false
+        }
+      ]
+    },
+
+
+
+    {
+      "id": "adultos",
+      "nome": "adultos",
+      "itens": [
+
+
+        {
+          "id": "ad1",
+          "titulo": "X",
+          "descricao": "conteudos privado para maiores de +18",
+          "imagem": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwZ2J98lwQyJeTfT_Zo6kaQECWdc2JpiHhAwIith4HVw&s",
+          "link": "https://www.xnxx.com/",
+          "destaque": false,
+          "vip": true
+        }
+      ]
+    }
+
+
+  ]
+}
