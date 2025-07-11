@@ -101,7 +101,7 @@ const apps = {
         {
             "id": 8,
             "name": "RfStudio para tv",
-            "description": "Um aplicativo da empresa rfstudio oficial Corra para conferir!!!",
+            "description": "Um aplicativo da empresa rfstudio oficial Corra para conferir!!! App em teste🫣",
             "category": "Social",
             "price": 0.00,
             "promo_price": 0.00,
