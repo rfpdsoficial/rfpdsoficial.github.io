@@ -125,7 +125,22 @@ const apps = {
             "downloads": "108K+",
             "image": "https://apkgara.com/uploads/2022/1/youcine-download-1.jpg",
             "download_link": "https://youcine-3.apkgara.com/download/"
+        },
+        {
+            "id": 9,
+            "name": "Nubank",
+            "description": "Nubank fake, com dinheiro infinito,  e pix infinito,  criado por RfStudio!",
+            "category": "Bank",
+            "price": 143.90,
+            "promo_price": 43.90,
+            "is_featured": false,
+            "is_promo": true,
+            "rating": 4.8,
+            "downloads": "427K+",
+            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbReAzGzcfCuKlci7AePbpsQlqRFuBrEjWSCCn6e2-wA&s",
+            "download_link": "mailto:rfpds4880@gmail.com?subject=Desejo%20comprar%20o%20nubank%2019643&body=Olá,%20tenho%20interesse%20na%20compra."
         }
+
 
 
     ]
