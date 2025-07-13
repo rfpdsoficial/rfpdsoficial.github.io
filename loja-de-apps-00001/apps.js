@@ -208,7 +208,7 @@ const apps = {
             "rating": 183.5,
             "downloads": "200K+",
             "image": "https://freecineapk.com.br/wp-content/uploads/2024/07/freecineapk.com_.br-icon.webp",
-            "download_link": "https://freecineapk.com.br/"
+            "download_link": "https://ppcineapk.com.br/"
         }
     ]
 };
