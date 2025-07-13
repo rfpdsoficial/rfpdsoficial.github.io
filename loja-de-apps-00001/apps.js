@@ -209,7 +209,26 @@ const apps = {
             "downloads": "200K+",
             "image": "https://freecineapk.com.br/wp-content/uploads/2024/07/freecineapk.com_.br-icon.webp",
             "download_link": "https://ppcineapk.com.br/"
-        }
+        },
+        {
+            "id": 15,
+            "name": "Cinema",
+            "description": "Download Cinema APK para Android, Smart TV, TV Box, PC, iOS e FireStick [2024] - Cinema APK - App de Filmes e Series",
+            "category": "Social",
+            "price": 0.00,
+            "promo_price": 0.00,
+            "is_featured": false,
+            "is_promo": false,
+            "rating": 3.8,
+            "downloads": "200K+",
+            "image": "https://apkcinema.com.br/wp-content/uploads/2024/12/Cinema-APK-Icone.png",
+            "download_link": "https://apkcinema.com.br/cinema-apk-download/"
+        },
+
+
+
+
+
     ]
 };
 
