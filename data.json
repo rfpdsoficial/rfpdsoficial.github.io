@@ -1,0 +1,39 @@
+{
+    "prizeAmount": "150,00",
+    "currency": "Reais",
+    "ticketPrice": "10,00",
+    "totalTickets": 50,
+    "contact": {
+        "pixKey": "rfstudioficialmy@gmail.com",
+        "phone": "(38) 99955-0133",
+        "email": "rfstudioficialmy@gmail.com"
+    },
+    "instructions": [
+        "Escolha seu número",
+        "Cada número vale [price] reais",
+        "Pague via PIX e envie o comprovante",
+        "Sorteio será realizado quando todos os números forem vendidos"
+    ],
+    "soldTickets": [
+
+
+
+        {
+            "number": 0,
+            "buyerName": "*",
+            "contact": "*",
+            "purchaseDate": "00-07-2025"
+        }
+
+
+
+
+
+
+
+
+
+
+
+    ]
+}
