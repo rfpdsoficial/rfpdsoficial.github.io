@@ -1,8 +1,8 @@
 {
-    "prizeAmount": "150,00",
+    "prizeAmount": "1.000,00",
     "currency": "Reais",
-    "ticketPrice": "10,00",
-    "totalTickets": 50,
+    "ticketPrice": "20,00",
+    "totalTickets": 100,
     "contact": {
         "pixKey": "rfstudioficialmy@gmail.com",
         "phone": "(38) 99955-0133",
