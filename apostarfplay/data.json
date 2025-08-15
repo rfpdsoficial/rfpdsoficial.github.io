@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "id": "Rafa17",
+      "username": "Raphael",
+      "password": "322008",
+      "name": "Raphael Pds",
+      "profilePic": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0RuIP23VTv23XKJaX1dRvRd6V5jPYvnwxmg&s",
+      "balance": 50000000.00,
+      "email": "Raphaelpereiradossantos3@gmail.com"
+    },
+    {
+      "id": "geo13",
+      "username": "Geovana",
+      "password": "geo com1",
+      "name": "Geovana",
+      "profilePic": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3e9F7zErChVOvw3uR_XtaZSRrTpjiV56ZeA&s",
+      "balance": 50000000.00,
+      "email": "sem@email.com"
+    }
+  ]
+}
