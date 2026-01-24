@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Game do Rafa</title>
+
+<style>
+body {
+  margin: 0;
+  background: #111;
+  overflow: hidden;
+  touch-action: none;
+}
+canvas {
+  background: #E89C37;
+  display: block;
+  margin: auto;
+}
+.controls {
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+.btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #444;
+  color: #fff;
+  font-size: 24px;
+  line-height: 60px;
+  text-align: center;
+  user-select: none;
+}
+.group { display: flex; gap: 15px; }
+</style>
+</head>
+<body>
+
+<canvas id="game"></canvas>
+
+<div class="controls">
+  <div class="group">
+    <div id="left" class="btn">◀</div>
+    <div id="right" class="btn">▶</div>
+  </div>
+  <div class="group">
+    <div id="jump" class="btn">⤴</div>
+  </div>
+</div>
+
+<script>
+/* ========= CONFIG ========= */
+const TILE = 32;
+const GRAVITY = 0.6;
+const SPEED = 4;
+const JUMP = 10;
+
+/* ========= MAPA ========= */
+const MAP = [
+  "####################",
+  "#..................#",
+  "#..................#",
+  "#..................#",
+  "#..................#",
+  "#..................#",
+  "#..................#",
+  "#..................#",
+  "#..................#",
+  "#..................#",
+  "#..................#",
+  "#..................#",
+  "#..................#",
+  "#..................#",
+  "#..................#",
+  "#..................#",
+  "#..................#",
+  "#..................#",
+  "#..................#",
+  "#..................#",
+  "#..................#",
+  "#..................#",
+  "#................#.#",
+  "#......$.#......#..#",
+  "#......#....#..#...#",
+  "#........#....#....#",
+  "#............#.....#",
+  "#...........#......#",
+  "#......#####.......#",
+  "#..P...............#",
+  "####################"
+];
+
+const ROWS = MAP.length;
+const COLS = MAP[0].length;
+
+/* ========= CANVAS ========= */
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+const BASE_W = COLS * TILE;
+const BASE_H = ROWS * TILE;
+
+function resize() {
+  const scale = Math.min(
+    window.innerWidth / BASE_W,
+    window.innerHeight / BASE_H
+  );
+  canvas.width = BASE_W * scale;
+  canvas.height = BASE_H * scale;
+  ctx.setTransform(scale, 0, 0, scale, 0, 0);
+}
+window.addEventListener("resize", resize);
+resize();
+
+/* ========= WORLD ========= */
+let blocks = [];
+let portal = null;
+let mudouFase = false;
+
+let player = {
+  x: 0, y: 0,
+  w: 32, h: 32,
+  vx: 0, vy: 0,
+  onGround: false
+};
+
+/* ========= TEXTURA ========= */
+const playerTexture = new Image();
+playerTexture.src = "1.png";
+
+/* ========= MAP PARSE ========= */
+MAP.forEach((row, y) => {
+  [...row].forEach((c, x) => {
+    const px = x * TILE;
+    const py = y * TILE;
+
+    if (c === "#") blocks.push({ x: px, y: py, w: TILE, h: TILE });
+    if (c === "P") { player.x = px; player.y = py; }
+    if (c === "$") portal = { x: px, y: py, w: TILE, h: TILE };
+  });
+});
+
+/* ========= INPUT ========= */
+let left=false, right=false, jump=false;
+
+const bind = (id, start, end) => {
+  const el = document.getElementById(id);
+  el.ontouchstart = e => { e.preventDefault(); start(); };
+  el.ontouchend   = e => { e.preventDefault(); end(); };
+};
+
+bind("left",  ()=>left=true,  ()=>left=false);
+bind("right", ()=>right=true, ()=>right=false);
+bind("jump",  ()=>jump=true,  ()=>jump=false);
+
+/* ========= COLLISION ========= */
+function rectsCollide(a, b) {
+  return (
+    a.x < b.x + b.w &&
+    a.x + a.w > b.x &&
+    a.y < b.y + b.h &&
+    a.y + a.h > b.y
+  );
+}
+
+/* ========= LOOP ========= */
+function update() {
+  player.vx = 0;
+  if (left)  player.vx = -SPEED;
+  if (right) player.vx = SPEED;
+
+  if (jump && player.onGround) {
+    player.vy = -JUMP;
+    player.onGround = false;
+  }
+
+  player.vy += GRAVITY;
+
+  // Movimento X
+  player.x += player.vx;
+  blocks.forEach(b => {
+    if (rectsCollide(player, b)) {
+      if (player.vx > 0) player.x = b.x - player.w;
+      if (player.vx < 0) player.x = b.x + b.w;
+    }
+  });
+
+  // Movimento Y
+  player.y += player.vy;
+  player.onGround = false;
+
+  blocks.forEach(b => {
+    if (rectsCollide(player, b)) {
+      if (player.vy > 0) {
+        player.y = b.y - player.h;
+        player.vy = 0;
+        player.onGround = true;
+      } else if (player.vy < 0) {
+        player.y = b.y + b.h;
+        player.vy = 0;
+      }
+    }
+  });
+
+  // PORTAL → OUTRA PÁGINA
+  if (portal && rectsCollide(player, portal) && !mudouFase) {
+    mudouFase = true;
+    window.location.href = "3.html";
+  }
+}
+
+function draw() {
+  ctx.clearRect(0,0,BASE_W,BASE_H);
+
+  ctx.fillStyle = "#777";
+  blocks.forEach(b => ctx.fillRect(b.x,b.y,b.w,b.h));
+
+  if (portal) {
+    ctx.fillStyle = "gold";
+    ctx.fillRect(portal.x, portal.y, portal.w, portal.h);
+  }
+
+  if (playerTexture.complete) {
+    ctx.drawImage(playerTexture, player.x, player.y, player.w, player.h);
+  } else {
+    ctx.fillStyle = "#0f0";
+    ctx.fillRect(player.x, player.y, player.w, player.h);
+  }
+}
+
+function loop() {
+  update();
+  draw();
+  requestAnimationFrame(loop);
+}
+loop();
+</script>
+</body>
+</html>

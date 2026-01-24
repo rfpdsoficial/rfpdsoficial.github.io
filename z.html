@@ -1,0 +1,80 @@
+<!DOCTYPE html><html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vitória!</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif;}
+    body{
+      width:100vw;
+      height:100vh;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+    }.win-container{
+  text-align:center;
+  background: rgba(0,0,0,0.5);
+  padding:40px 25px;
+  border-radius:20px;
+  max-width:400px;
+  width:90%;
+  box-shadow:0 0 40px rgba(0,255,255,0.2);
+  animation: pop 0.8s ease;
+}
+
+h1{
+  font-size:2.5rem;
+  margin-bottom:15px;
+  color:#00fff7;
+}
+
+p{
+  font-size:1.1rem;
+  margin-bottom:25px;
+  line-height:1.4;
+}
+
+.btn{
+  padding:12px 25px;
+  border:none;
+  border-radius:30px;
+  background:#00fff7;
+  color:#000;
+  font-size:1rem;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.btn:hover{
+  background:#00c2bc;
+  transform:scale(1.05);
+}
+
+.emoji{
+  font-size:3rem;
+  margin-bottom:15px;
+}
+
+@keyframes pop{
+  0%{transform:scale(0.7); opacity:0;}
+  100%{transform:scale(1); opacity:1;}
+}
+
+  </style>
+</head>
+<body>  <div class="win-container">
+    <div class="emoji">🎉🏆</div>
+    <h1>PARABÉNS!</h1>
+    <p>Você zerou o jogo como um verdadeiro monstro do gameplay.</p>
+    <p><strong>Esse é só o começo.</strong><br>Em breve o jogo completo estará disponível com novas fases, inimigos, mapas e desafios insanos.</p>
+    <p>Fica ligado. O projeto tá só no warm-up 🔥</p>
+    <button class="btn" onclick="voltar()">Voltar ao início</button>
+  </div>  <script>
+    function voltar(){
+      window.location.href = "index.html"; // troca pelo nome da sua tela inicial
+    }
+  </script></body>
+</html>
