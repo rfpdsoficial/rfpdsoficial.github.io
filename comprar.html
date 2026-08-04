@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Comprar Rifa</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#0b0b0b;
+color:white;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+.topo{
+text-align:center;
+padding:30px;
+}
+
+.topo h1{
+color:#ffd700;
+font-size:35px;
+}
+
+.card{
+background:#161616;
+padding:30px;
+border-radius:20px;
+margin:20px 0;
+box-shadow:0 5px 20px #000;
+}
+
+h2{
+text-align:center;
+color:#ffd700;
+margin-bottom:20px;
+}
+
+.premios{
+display:grid;
+gap:15px;
+}
+
+.premio{
+background:#222;
+padding:15px;
+border-radius:10px;
+text-align:center;
+}
+
+select,
+input{
+
+width:100%;
+padding:15px;
+margin:10px 0;
+border-radius:10px;
+border:none;
+font-size:16px;
+
+}
+
+.valor{
+
+text-align:center;
+font-size:28px;
+color:#00e676;
+margin:20px;
+
+}
+
+button{
+
+width:100%;
+padding:18px;
+border:none;
+border-radius:50px;
+background:#00c853;
+color:white;
+font-size:20px;
+font-weight:bold;
+cursor:pointer;
+
+}
+
+.pagamento{
+
+display:none;
+text-align:center;
+
+}
+
+.pagamento img{
+
+width:250px;
+margin:20px;
+border-radius:10px;
+
+}
+
+.aviso{
+
+background:#222;
+padding:20px;
+border-radius:15px;
+line-height:1.6;
+
+}
+
+.copiar{
+
+background:#ffd700;
+color:black;
+
+}
+
+footer{
+
+text-align:center;
+padding:20px;
+color:#aaa;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<div class="topo">
+
+<h1>COMPRAR RIFA</h1>
+
+<p>Garanta sua participação</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>PRÊMIOS</h2>
+
+<div class="premios">
+
+<div class="premio">
+🥇 1º Prêmio<br>
+R$ 50.000
+</div>
+
+<div class="premio">
+🥈 2º Prêmio<br>
+Moto Fan 160 0km
+</div>
+
+<div class="premio">
+🥉 3º Prêmio<br>
+R$ 5.000
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>QUANTIDADE DE NÚMEROS</h2>
+
+<select id="quantidade" onchange="calcularValor()">
+
+<option value="1">1 número - R$ 5,00</option>
+
+<option value="2">2 números - R$ 10,00</option>
+
+<option value="5">5 números - R$ 25,00</option>
+
+<option value="10">10 números - R$ 50,00</option>
+
+</select>
+
+
+<div class="valor" id="valor">
+
+Valor: R$ 5,00
+
+</div>
+
+</div>
+<div class="card">
+
+<h2>DADOS DO PARTICIPANTE</h2>
+
+<form onsubmit="mostrarPix(event)">
+
+<input placeholder="Nome completo" required>
+
+<input placeholder="Telefone" required>
+
+<input type="email" placeholder="E-mail" required>
+
+<input placeholder="Cidade" required>
+
+
+<button type="submit">
+CONTINUAR PAGAMENTO
+</button>
+
+
+</form>
+
+</div>
+
+
+
+<div class="card pagamento" id="pagamento">
+
+
+<h2>PAGAMENTO PIX</h2>
+
+
+<div class="aviso">
+
+Recebemos seus dados.
+
+<br><br>
+
+Após a confirmação do pagamento, enviaremos seus números por e-mail em até <b>24 horas</b>.
+
+<br><br>
+
+Também enviaremos a data e horário do sorteio.
+
+</div>
+
+
+<img src="qrcode.png" alt="QR Code Pix">
+
+
+<input id="codigoPix" value="00020126580014br.gov.bcb.pix01367a850d33-eb77-429c-8b16-d3e35f83b76e5204000053039865802BR5925RAPHAEL PEREIRA DOS SANTO6004UNAI62070503***6304A0CA" readonly>
+
+
+<button class="copiar" onclick="copiarPix()">
+
+COPIAR CÓDIGO PIX
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+
+<footer>
+
+Super Rifa © 2026
+
+</footer>
+
+
+
+
+<script>
+
+
+(function(){
+
+emailjs.init({
+
+publicKey:"9eINYC4zqrVkrqh6o"
+
+});
+
+})();
+
+
+
+function calcularValor(){
+
+let quantidade =
+document.getElementById("quantidade").value;
+
+
+let valor =
+quantidade * 5;
+
+
+document.getElementById("valor").innerHTML =
+"Valor: R$ " + valor.toFixed(2).replace(".",",");
+
+}
+
+
+
+
+function mostrarPix(event){
+
+event.preventDefault();
+
+
+let nome =
+document.querySelector('input[placeholder="Nome completo"]').value;
+
+
+let telefone =
+document.querySelector('input[placeholder="Telefone"]').value;
+
+
+let email =
+document.querySelector('input[placeholder="E-mail"]').value;
+
+
+let cidade =
+document.querySelector('input[placeholder="Cidade"]').value;
+
+
+let quantidade =
+document.getElementById("quantidade").value;
+
+
+let valor =
+quantidade * 5;
+
+
+
+emailjs.send(
+
+"service_yn8io94",
+
+"template_dnkofpj",
+
+{
+
+nome:nome,
+
+telefone:telefone,
+
+email:email,
+
+cidade:cidade,
+
+quantidade:quantidade,
+
+valor:valor.toFixed(2)
+
+}
+
+)
+
+.then(function(){
+
+
+alert("Dados enviados com sucesso!");
+
+
+document.getElementById("pagamento").style.display="block";
+
+
+window.scrollTo({
+
+top:document.body.scrollHeight,
+
+behavior:"smooth"
+
+});
+
+
+},
+
+
+function(error){
+
+alert("Erro ao enviar os dados.");
+
+console.log(error);
+
+});
+
+
+}
+
+
+
+
+
+function copiarPix(){
+
+let codigo =
+document.getElementById("codigoPix");
+
+
+codigo.select();
+
+
+navigator.clipboard.writeText(codigo.value);
+
+
+alert("Código Pix copiado!");
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
