@@ -1,324 +1,413 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <!-- Configuração crucial para mobile: impede zoom e ajusta a escala -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Jogo Impossível Mobile</title>
+    <style>
+        /* Reset básico */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            background-color: #111;
+            color: white;
+            font-family: Arial, sans-serif;
+            height: 100vh; /* Ocupa toda a altura */
+            width: 100vw;
+            overflow: hidden; /* Impede rolagem */
+            display: flex;
+            flex-direction: column;
+            touch-action: none; /* Impede gestos do navegador */
+            user-select: none; /* Impede seleção de texto */
+            -webkit-user-select: none;
+        }
 
-<title>Super Rifa</title>
+        /* Área do Jogo */
+        #game-container {
+            flex: 1; /* Ocupa o espaço disponível acima dos controles */
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+            border-bottom: 2px solid #333;
+        }
 
-<style>
+        canvas {
+            background-color: #000;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.2);
+            max-width: 95%;
+            max-height: 95%;
+        }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
-}
+        /* Interface Superior */
+        #ui-layer {
+            position: absolute;
+            top: 10px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            pointer-events: none; /* Permite clicar através do texto */
+            z-index: 5;
+        }
+        #level-text { font-size: 18px; font-weight: bold; color: #ff4444; text-shadow: 1px 1px 0 #000; }
+        #status-text { font-size: 12px; color: #ccc; margin-top: 5px; }
 
-body{
-    background:#0b0b0b;
-    color:white;
-}
+        /* Controles na Tela */
+        #controls {
+            height: 180px; /* Altura fixa para os botões */
+            background: #1a1a1a;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 8px;
+            padding: 10px;
+            padding-bottom: 20px; /* Espaço para barra do iPhone */
+        }
 
-header{
-    background:linear-gradient(135deg,#000,#222);
-    padding:20px;
-}
+        .btn {
+            background: #333;
+            border-radius: 12px;
+            border: 2px solid #444;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: #aaa;
+            transition: background 0.1s;
+            cursor: pointer;
+        }
 
-.banner{
-    max-width:1100px;
-    margin:auto;
-}
+        .btn.active {
+            background: #666;
+            border-color: #fff;
+            color: #fff;
+        }
 
-.banner img{
-    width:100%;
-    border-radius:20px;
-    box-shadow:0 0 30px #000;
-}
+        /* Posicionamento dos botões (D-Pad) */
+        #btn-up { grid-column: 2; grid-row: 1; }
+        #btn-left { grid-column: 1; grid-row: 2; }
+        #btn-down { grid-column: 2; grid-row: 2; }
+        #btn-right { grid-column: 3; grid-row: 2; }
 
-.container{
-    max-width:1100px;
-    margin:auto;
-    padding:20px;
-}
-
-.titulo{
-    text-align:center;
-    margin:30px 0;
-}
-
-.titulo h1{
-    font-size:40px;
-    color:#ffd700;
-}
-
-.titulo p{
-    font-size:18px;
-    margin-top:10px;
-}
-
-.botao{
-    display:block;
-    max-width:400px;
-    margin:25px auto;
-    padding:18px;
-    background:#00c853;
-    color:white;
-    text-align:center;
-    border-radius:50px;
-    font-size:22px;
-    font-weight:bold;
-    text-decoration:none;
-    transition:0.3s;
-}
-
-.botao:hover{
-    background:#00e676;
-}
-
-.card{
-    background:#161616;
-    padding:30px;
-    border-radius:20px;
-    margin:25px 0;
-    box-shadow:0 5px 20px #000;
-}
-
-.card h2{
-    text-align:center;
-    margin-bottom:25px;
-    color:#ffd700;
-}
-
-.premios{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
-}
-
-.premio{
-    background:#222;
-    padding:25px;
-    text-align:center;
-    border-radius:15px;
-}
-
-.premio strong{
-    display:block;
-    font-size:25px;
-    color:#ffd700;
-    margin-bottom:10px;
-}
-
-.info{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-    gap:15px;
-}
-
-.info div{
-    background:#222;
-    padding:20px;
-    border-radius:15px;
-    text-align:center;
-}
-
-.live{
-    background:#000;
-    height:300px;
-    border-radius:15px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    border:2px solid red;
-}
-
-.live h3{
-    color:red;
-    font-size:35px;
-    margin-bottom:15px;
-}
-
-.sorteio{
-    text-align:center;
-    line-height:1.8;
-}
-
-footer{
-    background:#000;
-    padding:25px;
-    text-align:center;
-    color:#aaa;
-}
-
-@media(max-width:600px){
-
-.titulo h1{
-    font-size:30px;
-}
-
-}
-
-</style>
-
+    </style>
 </head>
-
 <body>
 
-
-<header>
-
-<div class="banner">
-<img src="rifa.jpg" alt="Imagem da Rifa">
-</div>
-
-</header>
-
-
-<div class="container">
-
-
-<div class="titulo">
-
-<h1>SUPER RIFA</h1>
-
-<p>
-Sua oportunidade de concorrer a grandes prêmios.
-</p>
-
-
-<a class="botao" href="comprar.html">
-COMPRAR AGORA
-</a>
-
-
-</div>
-
-
-
-
-<div class="card">
-
-<h2>PRÊMIOS</h2>
-
-<div class="premios">
-
-
-<div class="premio">
-<strong>1º PRÊMIO</strong>
-R$ 50.000
-</div>
-
-
-<div class="premio">
-<strong>2º PRÊMIO</strong>
-Moto Fan 160 0km
-</div>
-
-
-<div class="premio">
-<strong>3º PRÊMIO</strong>
-R$ 5.000
-</div>
-
-
-</div>
-
-</div>
-
-
-
-
-
-<div class="card">
-
-<h2>INFORMAÇÕES</h2>
-
-
-<div class="info">
-
-
-<div>
-Sorteio<br>
-Quando todas as rifas forem vendidas
-</div>
-
-
-<div>
-Transmissão<br>
-Ao vivo pelo site e Instagram
-</div>
-
-
-</div>
-
-</div>
-
-
-
-
-
-<div class="card">
-
-
-<h2>🔴 LIVE AO VIVO</h2>
-
-
-<div class="live">
-
-<div>
-
-<h3>🔴 AO VIVO</h3>
-
-<p>
-A transmissão do sorteio acontecerá ao vivo.
-</p>
-
-<p>
-A live ficará disponível somente durante o sorteio.
-</p>
-
-
-</div>
-
-</div>
-
-
-</div>
-
-
-
-
-
-<div class="card sorteio">
-
-<h2>SORTEIO</h2>
-
-<p>
-O sorteio será realizado quando todas as rifas forem vendidas.
-</p>
-
-<p>
-A transmissão será feita ao vivo pelo site e Instagram oficial.
-</p>
-
-
-</div>
-
-
-
-</div>
-
-
-
-<footer>
-
-Super Rifa © 2026<br>
-Todos os direitos reservados
-
-</footer>
-
-
+    <div id="game-container">
+        <canvas id="gameCanvas"></canvas>
+        <div id="ui-layer">
+            <div id="level-text">Fase 1</div>
+            <div id="status-text">Toque nos botões para mover</div>
+        </div>
+    </div>
+
+    <div id="controls">
+        <div class="btn" id="btn-up">▲</div>
+        <div class="btn" id="btn-left">◀</div>
+        <div class="btn" id="btn-down">▼</div>
+        <div class="btn" id="btn-right">▶</div>
+    </div>
+
+<script>
+    // --- CONFIGURAÇÃO INICIAL ---
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const levelText = document.getElementById('level-text');
+    const statusText = document.getElementById('status-text');
+    
+    let animationId;
+    let currentLevel = 0;
+    
+    // Estado das teclas
+    const keys = { up: false, down: false, left: false, right: false };
+
+    // Objetos do jogo
+    const player = { x: 0, y: 0, size: 0, speed: 0, color: '#00ccff' };
+    const goal = { x: 0, y: 0, size: 0, color: '#00ff00' };
+    let enemies = [];
+    let walls = [];
+
+    // --- LÓGICA DE REDIMENSIONAMENTO (CRUCIAL PARA MOBILE) ---
+    function resize() {
+        const container = document.getElementById('game-container');
+        // Define o tamanho do canvas baseado no container pai
+        canvas.width = container.clientWidth;
+        canvas.height = container.clientHeight;
+        
+        // Se o jogo já começou, recalcula tamanhos relativos
+        if (currentLevel >= 0) {
+            updatePlayerSize();
+            // Redesenha imediatamente para não piscar
+            draw(); 
+        }
+    }
+    
+    window.addEventListener('resize', resize);
+    // Chama resize inicial após carregar
+    setTimeout(resize, 100); 
+
+    function updatePlayerSize() {
+        // O jogador tem 3% da largura da tela (mínimo 10px)
+        player.size = Math.max(10, canvas.width * 0.035);
+        player.speed = player.size * 0.4; // Velocidade proporcional
+        goal.size = player.size + 5;
+    }
+
+    // --- DADOS DAS FASES ---
+    const levels = [
+        { count: 3, speed: 1.5, type: 'none' },
+        { count: 5, speed: 2.0, type: 'vertical' },
+        { count: 8, speed: 2.8, type: 'horizontal' },
+        { count: 12, speed: 3.5, type: 'grid' },
+        { count: 20, speed: 5.0, type: 'chaos' }
+    ];
+
+    function startLevel(index) {
+        if (index >= levels.length) {
+            gameWin();
+            return;
+        }
+
+        currentLevel = index;
+        const config = levels[index];
+        levelText.innerText = `Fase ${index + 1}`;
+        statusText.innerText = "Desvie dos vermelhos!";
+        statusText.style.color = "#ccc";
+
+        // Resetar Player (canto superior esquerdo)
+        updatePlayerSize();
+        player.x = player.size;
+        player.y = player.size;
+
+        // Resetar Goal (canto inferior direito)
+        goal.x = canvas.width - goal.size - 5;
+        goal.y = canvas.height - goal.size - 5;
+
+        // Gerar Paredes
+        generateWalls(config.type);
+
+        // Gerar Inimigos
+        enemies = [];
+        for(let i=0; i<config.count; i++) {
+            spawnEnemy(config.speed);
+        }
+
+        if (!animationId) loop();
+    }
+
+    function generateWalls(type) {
+        walls = [];
+        const w = canvas.width;
+        const h = canvas.height;
+        const thick = Math.max(5, w * 0.02); // Espessura relativa
+
+        if (type === 'vertical') {
+            walls.push({x: w*0.3, y: 0, w: thick, h: h*0.7});
+            walls.push({x: w*0.7, y: h*0.3, w: thick, h: h*0.7});
+        } else if (type === 'horizontal') {
+            walls.push({x: 0, y: h*0.4, w: w*0.8, h: thick});
+            walls.push({x: w*0.2, y: h*0.6, w: w*0.8, h: thick});
+        } else if (type === 'grid') {
+            walls.push({x: w*0.25, y: 0, w: thick, h: h*0.6});
+            walls.push({x: w*0.5, y: h*0.4, w: thick, h: h*0.6});
+            walls.push({x: w*0.75, y: 0, w: thick, h: h*0.6});
+        } else if (type === 'chaos') {
+            walls.push({x: w*0.2, y: h*0.2, w: w*0.6, h: thick});
+            walls.push({x: w*0.2, y: h*0.5, w: w*0.6, h: thick});
+            walls.push({x: w*0.2, y: h*0.2, w: thick, h: h*0.6});
+            walls.push({x: w*0.6, y: h*0.2, w: thick, h: h*0.6});
+        }
+    }
+
+    function spawnEnemy(speedMult) {
+        let safe = false;
+        let ex, ey;
+        // Tenta criar inimigo longe do player
+        while(!safe) {
+            ex = Math.random() * (canvas.width - 20);
+            ey = Math.random() * (canvas.height - 20);
+            const dist = Math.hypot(ex - player.x, ey - player.y);
+            if (dist > 100) safe = true;
+        }
+
+        const size = player.size * 0.8;
+        enemies.push({
+            x: ex, y: ey, size: size,
+            vx: (Math.random() - 0.5) * speedMult * 3,
+            vy: (Math.random() - 0.5) * speedMult * 3
+        });
+    }
+
+    // --- LOOP DO JOGO ---
+    function update() {
+        // Movimento Player
+        if (keys.up) player.y -= player.speed;
+        if (keys.down) player.y += player.speed;
+        if (keys.left) player.x -= player.speed;
+        if (keys.right) player.x += player.speed;
+
+        // Limites da tela (Player)
+        if (player.x < 0) player.x = 0;
+        if (player.y < 0) player.y = 0;
+        if (player.x + player.size > canvas.width) player.x = canvas.width - player.size;
+        if (player.y + player.size > canvas.height) player.y = canvas.height - player.size;
+
+        // Colisão Player com Paredes
+        if (checkCollision(player, walls)) {
+            // Se bateu na parede, volta pro início
+            player.x = player.size;
+            player.y = player.size;
+            flashRed();
+        }
+
+        // Atualizar Inimigos
+        for (let e of enemies) {
+            e.x += e.vx;
+            e.y += e.vy;
+
+            // Rebater nas bordas da tela
+            if (e.x <= 0 || e.x + e.size >= canvas.width) e.vx *= -1;
+            if (e.y <= 0 || e.y + e.size >= canvas.height) e.vy *= -1;
+
+            // Colisão Inimigo com Paredes
+            if (checkCollision(e, walls)) {
+                e.vx *= -1;
+                e.vy *= -1;
+                e.x += e.vx; // Desgruda
+                e.y += e.vy;
+            }
+
+            // Colisão Player vs Inimigo
+            if (rectIntersect(player.x, player.y, player.size, player.size, e.x, e.y, e.size, e.size)) {
+                playerDie();
+            }
+        }
+
+        // Checar Vitória
+        if (rectIntersect(player.x, player.y, player.size, player.size, goal.x, goal.y, goal.size, goal.size)) {
+            startLevel(currentLevel + 1);
+        }
+    }
+
+    function draw() {
+        // Limpar
+        ctx.fillStyle = '#000';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Paredes
+        ctx.fillStyle = '#555';
+        for (let w of walls) {
+            ctx.fillRect(w.x, w.y, w.w, w.h);
+        }
+
+        // Objetivo
+        ctx.fillStyle = goal.color;
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = goal.color;
+        ctx.fillRect(goal.x, goal.y, goal.size, goal.size);
+        ctx.shadowBlur = 0;
+
+        // Player
+        ctx.fillStyle = player.color;
+        ctx.fillRect(player.x, player.y, player.size, player.size);
+
+        // Inimigos
+        ctx.fillStyle = '#f00';
+        for (let e of enemies) {
+            ctx.fillRect(e.x, e.y, e.size, e.size);
+        }
+    }
+
+    function loop() {
+        update();
+        draw();
+        animationId = requestAnimationFrame(loop);
+    }
+
+    // --- UTILITÁRIOS ---
+    function rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2) {
+        return x2 < x1 + w1 && x2 + w2 > x1 && y2 < y1 + h1 && y2 + h2 > y1;
+    }
+
+    function checkCollision(obj, wallList) {
+        for (let w of wallList) {
+            if (rectIntersect(obj.x, obj.y, obj.size, obj.size, w.x, w.y, w.w, w.h)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function playerDie() {
+        statusText.innerText = "MORREU! Reiniciando...";
+        statusText.style.color = "red";
+        // Pequeno delay visual
+        const originalX = player.x;
+        const originalY = player.y;
+        player.x = -100; // Esconde momentaneamente
+        
+        setTimeout(() => {
+            player.x = player.size;
+            player.y = player.size;
+            statusText.innerText = "Desvie dos vermelhos!";
+            statusText.style.color = "#ccc";
+        }, 300);
+    }
+
+    function flashRed() {
+        ctx.fillStyle = 'rgba(255, 0, 0, 0.3)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function gameWin() {
+        cancelAnimationFrame(animationId);
+        ctx.fillStyle = '#000';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#0f0';
+        ctx.font = 'bold 30px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText("VOCÊ VENCEU!", canvas.width/2, canvas.height/2);
+        levelText.innerText = "FIM DE JOGO";
+        statusText.innerText = "Parabéns!";
+    }
+
+    // --- CONTROLES DE TOQUE (EVENTOS) ---
+    function setupButton(id, key) {
+        const btn = document.getElementById(id);
+        
+        const activate = (e) => {
+            e.preventDefault(); // Impede comportamento padrão (zoom, scroll)
+            keys[key] = true;
+            btn.classList.add('active');
+        };
+
+        const deactivate = (e) => {
+            e.preventDefault();
+            keys[key] = false;
+            btn.classList.remove('active');
+        };
+
+        // Eventos Touch (Mobile)
+        btn.addEventListener('touchstart', activate, {passive: false});
+        btn.addEventListener('touchend', deactivate, {passive: false});
+        btn.addEventListener('touchcancel', deactivate, {passive: false});
+
+        // Eventos Mouse (Para testar no PC)
+        btn.addEventListener('mousedown', activate);
+        btn.addEventListener('mouseup', deactivate);
+        btn.addEventListener('mouseleave', deactivate);
+    }
+
+    setupButton('btn-up', 'up');
+    setupButton('btn-down', 'down');
+    setupButton('btn-left', 'left');
+    setupButton('btn-right', 'right');
+
+    // Iniciar o jogo
+    startLevel(0);
+
+</script>
 </body>
 </html>
